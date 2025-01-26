@@ -1,9 +1,12 @@
 import 'package:auth_test_task/data/local/local_storage_service.dart';
-import 'package:auth_test_task/data/repositories/auth/auth_repository.dart';
+import 'package:auth_test_task/domain/services/auth/auth_provider.dart';
 import 'package:auth_test_task/domain/services/auth/utils/auth_password.dart';
 import 'package:flutter/foundation.dart';
 
 class LoginViewModel extends ChangeNotifier {
+  final AuthProvider authProvider;
+  LoginViewModel(this.authProvider);
+
   String _email = '';
   String _password = '';
   bool _isLoading = false;
@@ -54,10 +57,13 @@ class LoginViewModel extends ChangeNotifier {
         return false;
       }
 
-      // if everything is correct, set the user as logged in
-      await AuthRepository().login(_email, _password);
-
-      return true;
+      try {
+        await authProvider.login();
+        return true;
+      } catch (e) {
+        _errorText = 'Error: $e';
+        return false;
+      }
     } catch (e) {
       _errorText = 'Error: $e';
     } finally {

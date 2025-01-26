@@ -9,7 +9,7 @@ class AuthRepository extends AuthService {
   }
 
   @override
-  Future<void> login(String email, String password) {
+  Future<void> login() {
     return LocalStorageService.setIsLoggedIn(true);
   }
 

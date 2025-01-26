@@ -1,74 +1,64 @@
+import 'package:auth_test_task/domain/services/auth/auth_provider.dart';
 import 'package:auth_test_task/ui/auth/login/view_models/login_view_model.dart';
 import 'package:auth_test_task/ui/auth/login/widgets/login_form.dart';
 import 'package:auth_test_task/routing/navigation/navigation_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  late final LoginViewModel _viewModel;
-
-  void _onViewModelChanged() {
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _viewModel = LoginViewModel();
-    _viewModel.addListener(_onViewModelChanged);
-  }
-
-  @override
-  void dispose() {
-    _viewModel.removeListener(_onViewModelChanged);
-    super.dispose();
-  }
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loginViewModel = LoginViewModel(context.read<AuthProvider>());
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Auth Login'),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        width: double.infinity,
-        height: double.infinity,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              LoginForm(
-                onSubmit: (email, password) async {
-                  _viewModel.setEmail(email);
-                  _viewModel.setPassword(password);
-                  final loginResult = await _viewModel.login();
-                  if (loginResult == false) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(_viewModel.errorText ?? 'Error'),
-                      ),
-                    );
-                  } else {
-                    NavigationService.replaceTo('/home');
-                  }
-                },
-              ),
-              const SizedBox(height: 20),
-              ButtonTheme(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        NavigationService.navigateTo('/signup');
-                      },
-                      child: const Text('Sign Up')))
-            ]),
-      ),
+      body: _Body(loginViewModel: loginViewModel),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final LoginViewModel loginViewModel;
+  const _Body({required this.loginViewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      width: double.infinity,
+      height: double.infinity,
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LoginForm(
+              onSubmit: (email, password) async {
+                loginViewModel.setEmail(email);
+                loginViewModel.setPassword(password);
+                final loginResult = await loginViewModel.login();
+                if (loginResult == false) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(loginViewModel.errorText ?? 'Error'),
+                    ),
+                  );
+                } else {
+                  NavigationService.replaceTo('/home');
+                }
+              },
+            ),
+            const SizedBox(height: 20),
+            ButtonTheme(
+                child: ElevatedButton(
+                    onPressed: () {
+                      NavigationService.replaceTo('/signup');
+                    },
+                    child: const Text('Sign Up')))
+          ]),
     );
   }
 }

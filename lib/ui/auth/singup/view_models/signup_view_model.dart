@@ -1,10 +1,14 @@
 import 'package:auth_test_task/data/repositories/auth/auth_repository.dart';
 import 'package:auth_test_task/domain/models/user_model.dart';
+import 'package:auth_test_task/domain/services/auth/auth_provider.dart';
 import 'package:auth_test_task/domain/services/auth/utils/auth_password.dart';
 import 'package:auth_test_task/domain/services/auth/utils/auth_validation.dart';
 import 'package:flutter/foundation.dart';
 
 class SignupViewModel extends ChangeNotifier {
+  final AuthProvider authProvider;
+  SignupViewModel(this.authProvider);
+
   static const String errorFillFields = 'Please fill all fields';
   static const String errorInvalidEmail = 'Invalid email';
   static const String errorInvalidPassword = 'Invalid password';
@@ -84,7 +88,8 @@ class SignupViewModel extends ChangeNotifier {
             salt: salt,
             passwordHash: passwordHash),
       );
-      await AuthRepository().login(_email, _password);
+
+      await authProvider.login();
       return true;
     } catch (e) {
       _errorText = errorGeneral;
