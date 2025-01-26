@@ -35,6 +35,12 @@ class _AuthSignUpState extends State<AuthSignUp> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Auth Sign Up'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            NavigationService.goBack();
+          },
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.all(20),

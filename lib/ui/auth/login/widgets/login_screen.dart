@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ButtonTheme(
                   child: ElevatedButton(
                       onPressed: () {
-                        NavigationService.replaceTo('/signup');
+                        NavigationService.navigateTo('/signup');
                       },
                       child: const Text('Sign Up')))
             ]),
