@@ -15,6 +15,12 @@ class AuthSignUp extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Auth Sign Up'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            NavigationService.goBack();
+          },
+        ),
       ),
       body: _Body(signupViewModel: signupViewModel),
     );
