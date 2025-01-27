@@ -1,7 +1,7 @@
-import 'package:auth_test_task/data/repositories/auth/auth_repository.dart';
+import 'package:auth_test_task/data/repositories/auth/auth_repository_impl.dart';
 import 'package:auth_test_task/domain/models/user_model.dart';
-import 'package:auth_test_task/domain/services/auth/utils/auth_password.dart';
-import 'package:auth_test_task/domain/services/auth/utils/auth_validation.dart';
+import 'package:auth_test_task/domain/utils/auth/auth_password.dart';
+import 'package:auth_test_task/domain/utils/auth/auth_validation.dart';
 import 'package:flutter/foundation.dart';
 
 class SignupViewModel extends ChangeNotifier {
@@ -63,7 +63,7 @@ class SignupViewModel extends ChangeNotifier {
   }
 
   Future<bool> _checkUserExists() async {
-    final result = await AuthRepository().checkDuplicateEmail(_email);
+    final result = await AuthRepositoryImpl().checkDuplicateEmail(_email);
     if (result) {
       _errorText = errorUserExists;
       return true;
@@ -77,14 +77,14 @@ class SignupViewModel extends ChangeNotifier {
       final passwordHash =
           AuthPasswordService.hashPassword(_password, salt: salt);
 
-      await AuthRepository().saveUser(
+      await AuthRepositoryImpl().saveUser(
         UserModel(
             uid: _email + _password,
             email: _email,
             salt: salt,
             passwordHash: passwordHash),
       );
-      await AuthRepository().login(_email, _password);
+      await AuthRepositoryImpl().login();
       return true;
     } catch (e) {
       _errorText = errorGeneral;

@@ -1,4 +1,4 @@
-import 'package:auth_test_task/domain/services/auth/utils/auth_validation.dart';
+import 'package:auth_test_task/domain/utils/auth/auth_validation.dart';
 import 'package:auth_test_task/ui/auth/core/email_input.dart';
 import 'package:auth_test_task/ui/auth/core/password_input.dart';
 import 'package:flutter/material.dart';

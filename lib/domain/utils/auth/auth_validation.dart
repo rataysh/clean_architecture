@@ -1,5 +1,4 @@
 class AuthValidation {
-
   static String? emailValidation(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email is required';
@@ -19,5 +18,4 @@ class AuthValidation {
     }
     return null;
   }
-  
 }

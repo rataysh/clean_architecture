@@ -1,6 +1,6 @@
-import 'package:auth_test_task/data/local/local_storage_service.dart';
-import 'package:auth_test_task/data/repositories/auth/auth_repository.dart';
-import 'package:auth_test_task/domain/services/auth/utils/auth_password.dart';
+import 'package:auth_test_task/data/data_source/local/local_storage_service.dart';
+import 'package:auth_test_task/data/repositories/auth/auth_repository_impl.dart';
+import 'package:auth_test_task/domain/utils/auth/auth_password.dart';
 import 'package:flutter/foundation.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -55,7 +55,7 @@ class LoginViewModel extends ChangeNotifier {
       }
 
       // if everything is correct, set the user as logged in
-      await AuthRepository().login(_email, _password);
+      await AuthRepositoryImpl().login();
 
       return true;
     } catch (e) {

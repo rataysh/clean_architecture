@@ -1,15 +1,15 @@
-import 'package:auth_test_task/data/local/local_storage_service.dart';
+import 'package:auth_test_task/data/data_source/local/local_storage_service.dart';
 import 'package:auth_test_task/domain/models/user_model.dart';
-import 'package:auth_test_task/domain/services/auth/auth_service.dart';
+import 'package:auth_test_task/domain/repositories/auth_repository_interface.dart';
 
-class AuthRepository extends AuthService {
+class AuthRepositoryImpl implements AuthRepositoryInterface {
   @override
   Future<bool> isAuthenticated() {
     return LocalStorageService.getIsLoggedIn();
   }
 
   @override
-  Future<void> login(String email, String password) {
+  Future<void> login() {
     return LocalStorageService.setIsLoggedIn(true);
   }
 
