@@ -1,3 +1,6 @@
+import 'package:auth_test_task/data/repositories/auth/auth_repository_impl.dart';
+import 'package:auth_test_task/domain/use_cases/auth/use_case_check_duplicate_email.dart';
+import 'package:auth_test_task/domain/use_cases/auth/use_case_sign_up.dart';
 import 'package:auth_test_task/ui/auth/singup/view_models/signup_view_model.dart';
 import 'package:auth_test_task/ui/auth/singup/widgets/signup_form.dart';
 import 'package:auth_test_task/routing/navigation/navigation_service.dart';
@@ -20,7 +23,11 @@ class _AuthSignUpState extends State<AuthSignUp> {
   @override
   void initState() {
     super.initState();
-    _viewModel = SignupViewModel();
+    final authRepository = AuthRepositoryImpl();
+    final useCaseSignup = UseCaseSignUp(authRepository);
+    final useCaseCheckDuplicateEmail =
+        UseCaseCheckDuplicateEmail(authRepository);
+    _viewModel = SignupViewModel(useCaseCheckDuplicateEmail, useCaseSignup);
     _viewModel.addListener(_onViewModelChanged);
   }
 

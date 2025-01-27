@@ -6,7 +6,12 @@ class UseCaseRandomNumber {
 
   UseCaseRandomNumber(this._repository);
 
-  Future<RandomNumberModel> execute() async {
-    return await _repository.getRandomNumber();
+  Future<RandomNumberModel> executeFromCloudFunction() async {
+    return await _repository.getRandomNumberFromCloudFunction();
+
+  }
+
+  Future<RandomNumberModel> executeFromCloudRun() async {
+    return await _repository.getRandomNumberFromCloudRun();
   }
 }

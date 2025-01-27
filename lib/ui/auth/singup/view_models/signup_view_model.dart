@@ -1,10 +1,15 @@
-import 'package:auth_test_task/data/repositories/auth/auth_repository_impl.dart';
 import 'package:auth_test_task/domain/models/user_model.dart';
+import 'package:auth_test_task/domain/use_cases/auth/use_case_check_duplicate_email.dart';
+import 'package:auth_test_task/domain/use_cases/auth/use_case_sign_up.dart';
 import 'package:auth_test_task/domain/utils/auth/auth_password.dart';
 import 'package:auth_test_task/domain/utils/auth/auth_validation.dart';
 import 'package:flutter/foundation.dart';
 
 class SignupViewModel extends ChangeNotifier {
+  final UseCaseCheckDuplicateEmail _useCaseCheckDuplicateEmail;
+  final UseCaseSignUp _useCaseSignUp;
+  SignupViewModel(this._useCaseCheckDuplicateEmail, this._useCaseSignUp);
+
   static const String errorFillFields = 'Please fill all fields';
   static const String errorInvalidEmail = 'Invalid email';
   static const String errorInvalidPassword = 'Invalid password';
@@ -63,7 +68,7 @@ class SignupViewModel extends ChangeNotifier {
   }
 
   Future<bool> _checkUserExists() async {
-    final result = await AuthRepositoryImpl().checkDuplicateEmail(_email);
+    final result = await _useCaseCheckDuplicateEmail.execute(_email);
     if (result) {
       _errorText = errorUserExists;
       return true;
@@ -77,14 +82,21 @@ class SignupViewModel extends ChangeNotifier {
       final passwordHash =
           AuthPasswordService.hashPassword(_password, salt: salt);
 
-      await AuthRepositoryImpl().saveUser(
+      // await AuthRepositoryImpl().saveUser(
+      //   UserModel(
+      //       uid: _email + _password,
+      //       email: _email,
+      //       salt: salt,
+      //       passwordHash: passwordHash),
+      // );
+      // await AuthRepositoryImpl().login();
+      await _useCaseSignUp.execute(
         UserModel(
             uid: _email + _password,
             email: _email,
             salt: salt,
             passwordHash: passwordHash),
       );
-      await AuthRepositoryImpl().login();
       return true;
     } catch (e) {
       _errorText = errorGeneral;

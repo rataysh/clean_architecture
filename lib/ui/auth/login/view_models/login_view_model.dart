@@ -1,9 +1,12 @@
 import 'package:auth_test_task/data/data_source/local/local_storage_service.dart';
-import 'package:auth_test_task/data/repositories/auth/auth_repository_impl.dart';
+import 'package:auth_test_task/domain/use_cases/auth/use_case_login.dart';
 import 'package:auth_test_task/domain/utils/auth/auth_password.dart';
 import 'package:flutter/foundation.dart';
 
 class LoginViewModel extends ChangeNotifier {
+  final UseCaseLogin _useCaseLogin;
+  LoginViewModel(this._useCaseLogin);
+
   String _email = '';
   String _password = '';
   bool _isLoading = false;
@@ -54,8 +57,7 @@ class LoginViewModel extends ChangeNotifier {
         return false;
       }
 
-      // if everything is correct, set the user as logged in
-      await AuthRepositoryImpl().login();
+      await _useCaseLogin.execute();
 
       return true;
     } catch (e) {

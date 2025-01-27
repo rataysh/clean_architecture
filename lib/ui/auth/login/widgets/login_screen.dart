@@ -1,3 +1,5 @@
+import 'package:auth_test_task/data/repositories/auth/auth_repository_impl.dart';
+import 'package:auth_test_task/domain/use_cases/auth/use_case_login.dart';
 import 'package:auth_test_task/ui/auth/login/view_models/login_view_model.dart';
 import 'package:auth_test_task/ui/auth/login/widgets/login_form.dart';
 import 'package:auth_test_task/routing/navigation/navigation_service.dart';
@@ -20,7 +22,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _viewModel = LoginViewModel();
+    final authRepository = AuthRepositoryImpl();
+    final useCaseLogin = UseCaseLogin(authRepository);
+    _viewModel = LoginViewModel(useCaseLogin);
     _viewModel.addListener(_onViewModelChanged);
   }
 

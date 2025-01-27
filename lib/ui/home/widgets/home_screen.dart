@@ -1,5 +1,7 @@
 import 'package:auth_test_task/routing/navigation/navigation_service.dart';
 import 'package:auth_test_task/ui/home/view_models/home_view_model.dart';
+import 'package:auth_test_task/data/repositories/auth/auth_repository_impl.dart';
+import 'package:auth_test_task/domain/use_cases/auth/user_case_logout.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _viewModel = HomeViewModel();
+    final authRepository = AuthRepositoryImpl();
+    final useCaseLogout = UseCaseLogout(authRepository);
+    _viewModel = HomeViewModel(useCaseLogout);
     _viewModel.addListener(_onViewModelChanged);
   }
 

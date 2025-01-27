@@ -9,12 +9,22 @@ class RandomNumberRepositoryImpl implements RandomNumberRepositoryInterface {
   RandomNumberRepositoryImpl(this._apiService);
 
   @override
-  Future<RandomNumberModel> getRandomNumber() async {
+  Future<RandomNumberModel> getRandomNumberFromCloudFunction() async {
     try {
       final response = await _apiService.getRandomNumberFromCloudFunction();
       return RandomNumberModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw e;
+      throw Exception(e.message);
+    }
+  }
+
+  @override
+  Future<RandomNumberModel> getRandomNumberFromCloudRun() async {
+    try {
+      final response = await _apiService.getRandomNumberFromCloudRun();
+      return RandomNumberModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(e.message);
     }
   }
 }

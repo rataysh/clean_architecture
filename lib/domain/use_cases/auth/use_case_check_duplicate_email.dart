@@ -5,7 +5,7 @@ class UseCaseCheckDuplicateEmail {
 
   UseCaseCheckDuplicateEmail(this._repository);
 
-  Future<void> execute(String email) async {
+  Future<bool> execute(String email) async {
     return await _repository.checkDuplicateEmail(email);
   }
 }
