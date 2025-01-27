@@ -12,7 +12,9 @@ class RandomNumberRepositoryImpl implements RandomNumberRepositoryInterface {
   Future<RandomNumberModel> getRandomNumberFromCloudFunction() async {
     try {
       final response = await _apiService.getRandomNumberFromCloudFunction();
-      return RandomNumberModel.fromJson(response.data);
+      // First aproach
+      final Map<String, dynamic> data = {'randomValue': response.data};
+      return RandomNumberModel.fromJson(data);
     } on DioException catch (e) {
       throw Exception(e.message);
     }
@@ -22,7 +24,8 @@ class RandomNumberRepositoryImpl implements RandomNumberRepositoryInterface {
   Future<RandomNumberModel> getRandomNumberFromCloudRun() async {
     try {
       final response = await _apiService.getRandomNumberFromCloudRun();
-      return RandomNumberModel.fromJson(response.data);
+      // Second aproach
+      return RandomNumberModel.fromString(response.data);
     } on DioException catch (e) {
       throw Exception(e.message);
     }

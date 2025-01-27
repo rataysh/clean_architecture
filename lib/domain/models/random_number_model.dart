@@ -9,6 +9,10 @@ class RandomNumberModel {
     );
   }
 
+  factory RandomNumberModel.fromString(String value) {
+    return RandomNumberModel(randomValue: value);
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'randomValue': randomValue,
