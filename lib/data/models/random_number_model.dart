@@ -5,7 +5,7 @@ class RandomNumberModel {
 
   factory RandomNumberModel.fromJson(Map<String, dynamic> json) {
     return RandomNumberModel(
-      randomValue: json['randomValue'],
+      randomValue: json['randomValue'] ?? '',
     );
   }
 

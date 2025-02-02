@@ -1,6 +1,6 @@
-import 'package:auth_test_task/domain/models/random_number_model.dart';
+import 'package:auth_test_task/domain/entities/random_number_entity.dart';
 
 abstract class RandomNumberRepositoryInterface {
-  Future<RandomNumberModel> getRandomNumberFromCloudFunction();
-  Future<RandomNumberModel> getRandomNumberFromCloudRun();
+  Future<RandomNumberEntity> getRandomNumberFromCloudFunction();
+  Future<RandomNumberEntity> getRandomNumberFromCloudRun();
 }

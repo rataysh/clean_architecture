@@ -1,4 +1,4 @@
-import 'package:auth_test_task/domain/models/user_model.dart';
+import 'package:auth_test_task/domain/entities/user_entity.dart';
 import 'package:auth_test_task/domain/use_cases/auth/use_case_check_duplicate_email.dart';
 import 'package:auth_test_task/domain/use_cases/auth/use_case_sign_up.dart';
 import 'package:auth_test_task/domain/utils/auth/auth_password.dart';
@@ -82,16 +82,8 @@ class SignupViewModel extends ChangeNotifier {
       final passwordHash =
           AuthPasswordService.hashPassword(_password, salt: salt);
 
-      // await AuthRepositoryImpl().saveUser(
-      //   UserModel(
-      //       uid: _email + _password,
-      //       email: _email,
-      //       salt: salt,
-      //       passwordHash: passwordHash),
-      // );
-      // await AuthRepositoryImpl().login();
       await _useCaseSignUp.execute(
-        UserModel(
+        UserEntity(
             uid: _email + _password,
             email: _email,
             salt: salt,

@@ -1,5 +1,6 @@
 import 'package:auth_test_task/data/data_source/local/local_storage_service.dart';
-import 'package:auth_test_task/domain/models/user_model.dart';
+import 'package:auth_test_task/data/mappers/user_mapper.dart';
+import 'package:auth_test_task/domain/entities/user_entity.dart';
 import 'package:auth_test_task/domain/repositories/auth_repository_interface.dart';
 
 class AuthRepositoryImpl implements AuthRepositoryInterface {
@@ -25,7 +26,8 @@ class AuthRepositoryImpl implements AuthRepositoryInterface {
   }
 
   @override
-  Future<void> saveUser(UserModel user) {
-    return LocalStorageService.saveUser(user);
+  Future<void> saveUser(UserEntity user) {
+    final userDTO = user.toDTO();
+    return LocalStorageService.saveUser(userDTO);
   }
 }

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:auth_test_task/domain/models/user_model.dart';
+import 'package:auth_test_task/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
