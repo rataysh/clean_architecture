@@ -1,41 +1,17 @@
-import 'package:auth_test_task/data/repositories/auth/auth_repository_impl.dart';
-import 'package:auth_test_task/domain/use_cases/auth/use_case_login.dart';
-import 'package:auth_test_task/ui/auth/login/view_models/login_view_model.dart';
+import 'package:auth_test_task/ui/auth/login/login_provider.dart';
 import 'package:auth_test_task/ui/auth/login/widgets/login_form.dart';
 import 'package:auth_test_task/routing/navigation/navigation_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Watch the loginViewModelProvider
+    final loginViewModel = ref.watch(loginViewModelProvider);
 
-class _LoginScreenState extends State<LoginScreen> {
-  late final LoginViewModel _viewModel;
-
-  void _onViewModelChanged() {
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    final authRepository = AuthRepositoryImpl();
-    final useCaseLogin = UseCaseLogin(authRepository);
-    _viewModel = LoginViewModel(useCaseLogin);
-    _viewModel.addListener(_onViewModelChanged);
-  }
-
-  @override
-  void dispose() {
-    _viewModel.removeListener(_onViewModelChanged);
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Auth Login'),
@@ -50,13 +26,13 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               LoginForm(
                 onSubmit: (email, password) async {
-                  _viewModel.setEmail(email);
-                  _viewModel.setPassword(password);
-                  final loginResult = await _viewModel.login();
+                  loginViewModel.setEmail(email);
+                  loginViewModel.setPassword(password);
+                  final loginResult = await loginViewModel.login();
                   if (loginResult == false) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(_viewModel.errorText ?? 'Error'),
+                        content: Text(loginViewModel.errorText ?? 'Error'),
                       ),
                     );
                   } else {
